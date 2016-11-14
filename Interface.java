@@ -18,6 +18,7 @@ public class Interface extends JFrame implements ActionListener
     ArrayList<Subject> subjects = database.getSubjects();
     ArrayList<Formula> formulae = database.getFormulae();
     JPanel homepage = homepage();
+    String series_identifier;
 
     public Interface()
     {
@@ -36,10 +37,11 @@ public class Interface extends JFrame implements ActionListener
     {
         final Font big_font = new Font("Arial", Font.BOLD, 30);
         welcome.setSize(1700,900);
-        welcome.setLayout(new GridLayout(2,1));
+        welcome.setLayout(new GridLayout(3,1));
         JLabel wlcm = new JLabel("Welcome to The Division Formula Directory...");
         JLabel second = new JLabel("Your business is very important to us");
         JLabel alpha = new JLabel("(prototype)");
+        alpha.setHorizontalAlignment(JLabel.CENTER);
         second.setHorizontalAlignment(JLabel.CENTER);
         wlcm.setFont(big_font);
         welcome.add(wlcm);
@@ -73,6 +75,7 @@ public class Interface extends JFrame implements ActionListener
     private JPanel seriesPage(String input)
     {
         Series current = findSeries(input);
+        series_identifier = current.getName();
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2,1));
 
@@ -124,7 +127,7 @@ public class Interface extends JFrame implements ActionListener
         mid_panel.add(text);
 
         JPanel bot_panel = new JPanel();                            //bot panel with subject buttons
-        bot_panel.setLayout(new GridLayout(2,4));
+        bot_panel.setLayout(new GridLayout(8,1));
         ArrayList<JButton> buttons = subjectButtons(current);
         for (int i = 0; i<buttons.size(); ++i)
         {
@@ -141,9 +144,9 @@ public class Interface extends JFrame implements ActionListener
     {
         Subject current = findSubject(input);
         JFrame frame = new JFrame();                                //making the JFrame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(300,200);
+        frame.setSize(400,300);
         frame.setLocation(300,400);
 
         JPanel main = new JPanel();
@@ -151,17 +154,13 @@ public class Interface extends JFrame implements ActionListener
 
         JPanel top = new JPanel();                                  //contains ID, Rating, and Cost
         top.setLayout(new GridLayout());
-        top.setPreferredSize(new Dimension(250,50));
 
         JPanel top_left = new JPanel();
         top_left.setLayout(new GridLayout(2,1));
-        top_left.add(new JLabel(current.getID()));
-        top_left.add(new JLabel(current.getRating()));
-
-        JLabel top_right = new JLabel(current.getCost() + " pts");
+        top_left.add(new JLabel("  " + current.getID()));
 
         top.add(top_left);
-        top.add(top_right);
+        top.add(new JLabel(current.getRating()));
 
         JTextArea bottom = new JTextArea(current.getDescription()); //contains description
         bottom.setLineWrap(true);
@@ -172,9 +171,81 @@ public class Interface extends JFrame implements ActionListener
         return frame;
     }
 
+    private JFrame seriesInfoPage()
+    {
+        JFrame frame = new JFrame();                                //making the JFrame
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setSize(300,800);
+        frame.setLocation(200,100);
+
+        JPanel main = new JPanel();
+        main.setLayout(new GridLayout(27,1));
+        JLabel title = new JLabel("One word descriptions of each series...");
+        JLabel a = new JLabel("A: Style");
+        JLabel b = new JLabel("B: Mentality");
+        JLabel c = new JLabel("C: Breaker");
+        JLabel d = new JLabel("D: Creator");
+        JLabel e = new JLabel("E: Fantasia");
+        JLabel f = new JLabel("F: Macabre");
+        JLabel g = new JLabel("G: Trope");
+        JLabel h = new JLabel("H: Mover");
+        JLabel i = new JLabel("I: Brawler");
+        JLabel j = new JLabel("J: Elemental");
+        JLabel k = new JLabel("K: Technology");
+        JLabel l = new JLabel("L: Computation");
+        JLabel m = new JLabel("M: Biology");
+        JLabel n = new JLabel("N: Talisman");
+        JLabel o = new JLabel("O: Range");
+        JLabel p = new JLabel("P: Permanence");
+        JLabel q = new JLabel("Q: Spy");
+        JLabel r = new JLabel("R: Recreation");
+        JLabel s = new JLabel("S: Support");
+        JLabel t = new JLabel("T: Change");
+        JLabel u = new JLabel("U: Psychic");
+        JLabel v = new JLabel("V: Killer");
+        JLabel w = new JLabel("W: Exotic");
+        JLabel x = new JLabel("X: Morph");
+        JLabel y = new JLabel("Y: Gamble");
+        JLabel z = new JLabel("Z: Trump");
+        main.add(title);
+        main.add(a);
+        main.add(b);
+        main.add(c);
+        main.add(d);
+        main.add(e);
+        main.add(f);
+        main.add(g);
+        main.add(h);
+        main.add(i);
+        main.add(j);
+        main.add(k);
+        main.add(l);
+        main.add(m);
+        main.add(n);
+        main.add(o);
+        main.add(p);
+        main.add(q);
+        main.add(r);
+        main.add(s);
+        main.add(t);
+        main.add(u);
+        main.add(v);
+        main.add(w);
+        main.add(x);
+        main.add(y);
+        main.add(z);
+
+        frame.add(main);
+        return frame;
+    }
+
     private ArrayList<JButton> seriesButtons()
     {
         ArrayList<JButton> buttons = new ArrayList<JButton>();
+        JButton infoPage = new JButton("Information");
+        buttons.add(infoPage);
+        infoPage.addActionListener(this);
         for (int i = 0; i < database.getSeries().size(); ++i)
         {
             JButton button = new JButton(database.getSeries().get(i).getName() + " Series");
@@ -216,7 +287,7 @@ public class Interface extends JFrame implements ActionListener
             }
         }
         JButton back_to_homepage = new JButton("Back");
-        back_to_homepage.setActionCommand("ToHomepage");
+        back_to_homepage.setActionCommand("formula");
         back_to_homepage.addActionListener(this);
         buttons.add(back_to_homepage);
         return buttons;
@@ -282,6 +353,19 @@ public class Interface extends JFrame implements ActionListener
             validate();
             repaint();
         }
+        if (input == "Information")
+        {
+            JFrame frame = seriesInfoPage();
+            z=0;
+        }
+        if (input == "formula")
+        {
+            main_panel.removeAll();
+            main_panel.add(seriesPage(series_identifier));
+            z=0;
+            validate();
+            repaint();
+        }
         if (e.getSource() == timer)
         {
             main_panel.remove(welcome);
@@ -293,7 +377,7 @@ public class Interface extends JFrame implements ActionListener
         }
         else
         {
-            if (input.length() == 8)
+            if (input.length() == 8 && input.contains("Series"))
             {
                 char character = input.charAt(0);
                 String newinput = character + "";

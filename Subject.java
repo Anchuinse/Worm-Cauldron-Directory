@@ -7,14 +7,12 @@ import javax.swing.*;
 public class Subject
 {
     String ID, rating, description;
-    int cost;
 
-    public Subject(String id, String PRT, String words, int COST)
+    public Subject(String id, String PRT, String words)
     {
         ID = id;
         rating = PRT;
         description = words;
-        cost = COST;
     }
 
     public String getID() {return ID;}
@@ -22,8 +20,6 @@ public class Subject
     public String getRating() {return rating;}
 
     public String getDescription() {return description;}
-
-    public int getCost() {return cost;}
 
     public void displaySubject()
     {
@@ -42,7 +38,6 @@ public class Subject
         id_panel.setLayout(new GridLayout(2,1));
         id_panel.add(new JLabel(ID));
         id_panel.add(new JLabel(rating));
-        top_panel.add(new JLabel("" + cost));
         JTextArea text = new JTextArea(description);
         text.setLineWrap(true);
         frame.add(text);
@@ -52,7 +47,7 @@ public class Subject
 
     public static void main(String[] args)
     {
-        Subject patient_zero = new Subject("D1234", "Mover 2", "Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick ", 110);
+        Subject patient_zero = new Subject("D1234", "Mover 2", "Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick Hella quick ");
         patient_zero.displaySubject();
     }
 }
